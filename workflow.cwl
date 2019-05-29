@@ -21,8 +21,19 @@ inputs:
   - id: lftp_out_conf
     type: File
 
-outputs: []
-
+outputs:
+  files:
+    outputSource: 
+      - picard_markduplicates/output_metrics
+      - samtools_index/index_fai
+    type: File[]
+  bam:
+    outputSource: gatk-base_recalibration_print_reads/bqsr_bam
+    type: File
+  gvcf:
+    outputSource: gatk_haplotype_caller/gvcf
+    type: File
+    
 steps:
   - id: fastqs_in
     in:
@@ -248,22 +259,22 @@ steps:
     run: gatk-haplotype_caller.cwl
     label: gatk-haplotype_caller
 
-  - id: lftp_out
-    in: 
-      - id: lftp_out_conf
-        source: lftp_out_conf
-      - id: files_to_send
-        source:
-          - picard_markduplicates/output_metrics
-          - samtools_index/index_fai
-      - id: bam
-        source:
-          - gatk-base_recalibration_print_reads/bqsr_bam
-      - id: gvcf
-        source:      
-          - gatk_haplotype_caller/gvcf
-    out: []
-    run: lftp.cwl
+#  - id: lftp_out
+#    in: 
+#      - id: lftp_out_conf
+#        source: lftp_out_conf
+#      - id: files_to_send
+#        source:
+#          - picard_markduplicates/output_metrics
+#          - samtools_index/index_fai
+#      - id: bam
+#        source:
+#          - gatk-base_recalibration_print_reads/bqsr_bam
+#      - id: gvcf
+#        source:      
+#          - gatk_haplotype_caller/gvcf
+#    out: []
+#    run: lftp.cwl
 
 requirements:
   - class: MultipleInputFeatureRequirement
