@@ -22,11 +22,12 @@ inputs:
     type: File
 
 outputs:
-  files:
-    outputSource: 
-      - picard_markduplicates/output_metrics
-      - samtools_index/index_fai
-    type: File[]
+  metrics:
+    outputSource: picard_markduplicates/output_metrics
+    type: File
+  index:
+    outputSource: samtools_index/index_fai
+    type: File
   bam:
     outputSource: gatk-base_recalibration_print_reads/bqsr_bam
     type: File
