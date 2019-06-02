@@ -34,10 +34,47 @@ Known indels | `http://site-storage/rd/full/Mills_and_1000G_gold_standard.indels
 
 Input name | External URL | Internal URL | Contents
 --- | --- | --- | ---
-curl_reference_genome_url | `https://wes-tes-example.tsi.ebi.ac.uk/data/tmp/rd/full/reference_seq_url.txt` | `file:///data/tmp/rd/full/reference_seq_url.txt` | Link
-curl_fastq_urls | `https://wes-tes-example.tsi.ebi.ac.uk/data/tmp/rd/full/fastq_files_urls.txt` | `file:///data/tmp/rd/full/fastq_files_urls.txt` | Link
-curl_known_indels_url | `https://wes-tes-example.tsi.ebi.ac.uk/data/tmp/rd/full/known_indels_url.txt` | `file:///data/tmp/rd/full/known_indels_url.txt` | Link
-curl_known_sites_url | `https://wes-tes-example.tsi.ebi.ac.uk/data/tmp/rd/full/known_sites_url.txt` | `file:///data/tmp/rd/full/known_sites_url.txt` | Link
+curl_reference_genome_url | `https://wes-tes-example.tsi.ebi.ac.uk/data/tmp/rd/full/reference_seq_url.txt` | `file:///data/tmp/rd/full/reference_seq_url.txt` | [Link](/example-execution/reference_seq_url.txt)
+curl_fastq_urls | `https://wes-tes-example.tsi.ebi.ac.uk/data/tmp/rd/full/fastq_files_urls.txt` | `file:///data/tmp/rd/full/fastq_files_urls.txt` | [Link](example-execution/fastq_files_urls.txt)
+curl_known_indels_url | `https://wes-tes-example.tsi.ebi.ac.uk/data/tmp/rd/full/known_indels_url.txt` | `file:///data/tmp/rd/full/known_indels_url.txt` | [Link](example-execution/known_indels_url.txt)
+curl_known_sites_url | `https://wes-tes-example.tsi.ebi.ac.uk/data/tmp/rd/full/known_sites_url.txt` | `file:///data/tmp/rd/full/known_sites_url.txt` | [Link](example-execution/known_sites_url.txt)
 
 4. The workflow URL: https://github.com/EMBL-EBI-TSI/RD_pipeline_demo/blob/master/workflow.cwl
+5. Run the workflow using WesCli:
+```
+wes run rd_pipeline.yaml
+```
+from a directory that contains [this file](example-execution/rd_pipeline.yaml) and with [WesCli](https://github.com/EMBL-EBI-TSI/WesCli) installed.
 
+Or alternatively call the RunWorkflow POST API endpoint directly; you can use Swagger UI - at the example site it will be present at `https://wes-tes-example.tsi.ebi.ac.uk/ga4gh/wes/v1/ui/#!/WorkflowExecutionService/RunWorkflow` - to help you construct and/or execute the call.
+Parameters:
+```
+workflow_params : {
+      "chromosome": "1",
+      "curl_fastq_urls": {
+        "class": "File",
+        "path": "file:///data/tmp/rd/full/fastq_files_urls.txt"
+      },
+      "curl_known_indels_url": {
+        "class": "File",
+        "path": "file:///data/tmp/rd/full/known_indels_url.txt"
+      },
+      "curl_known_sites_url": {
+        "class": "File",
+        "path": "file:///data/tmp/rd/full/known_sites_url.txt"
+      },
+      "curl_reference_genome_url": {
+        "class": "File",
+        "path": "file:///data/tmp/rd/full/reference_seq_url.txt"
+      },
+      "lftp_out_conf": {
+        "class": "File",
+        "path": "http:///data/tmp/lftp.txt"
+      },
+      "readgroup_str": "@RG\\tID:Seq01p\\tSM:Seq01\\tPL:ILLUMINA\\tPI:330",
+      "sample_name": "abc1"
+    }
+    workflow_type: cwl
+    workflow_type_version: v1.0
+    workflow_url: https://github.com/EMBL-EBI-TSI/RD_pipeline_demo/blob/master/workflow.cwl
+    
